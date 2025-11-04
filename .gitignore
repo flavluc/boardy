@@ -1,0 +1,26 @@
+node_modules/
+# Node
+node_modules/
+dist/
+build/
+coverage/
+
+# pnpm
+.pnpm-store/
+
+# Direnv
+.direnv/
+.envrc
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+*.log
+
+# Editor junk
+.DS_Store
+*.swp
+.idea/
+.vscode/
