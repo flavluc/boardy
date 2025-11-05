@@ -8,6 +8,7 @@
     // Environment Settings
     // See also https://aka.ms/tsconfig/module
     "module": "nodenext",
+    "moduleResolution": "nodenext",
     "target": "esnext",
     "types": [],
     // For nodejs:
@@ -42,5 +43,9 @@
     "skipLibCheck": true,
 
     "esModuleInterop": true,
+
+    // Required for TypeORM entity decorators
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true
   }
 }
