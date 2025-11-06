@@ -1,19 +1,11 @@
-import 'reflect-metadata'
-
-import { Column as BoardColumn, Project, ProjectMember, Task, User } from '@boardy/shared'
 import * as dotenv from 'dotenv'
-import { DataSource, type DataSourceOptions } from 'typeorm'
-import { z } from 'zod'
-
 dotenv.config()
 
-const env = z
-  .object({
-    DATABASE_URL: z.url(),
-  })
-  .parse(process.env)
+import { DataSource, type DataSourceOptions } from 'typeorm'
 
-const databaseUrl = env.DATABASE_URL
+import { Column as BoardColumn, Project, ProjectMember, Task, User } from '../entities/index.js'
+
+const databaseUrl = process.env.DATABASE_URL
 if (!databaseUrl) {
   throw new Error('DATABASE_URL environment variable is missing')
 }
@@ -24,7 +16,7 @@ const dataSourceOptions: DataSourceOptions = {
   ssl: { rejectUnauthorized: false },
   synchronize: false,
   logging: false,
-  entities: [User, Project, BoardColumn, Task, ProjectMember],
+  entities: [BoardColumn, Project, ProjectMember, Task, User],
   migrations: ['src/db/migrations/*.{ts,js}'],
 }
 

@@ -26,6 +26,8 @@ export default [
       // Sort imports
       'simple-import-sort/imports': 'error',
       'simple-import-sort/exports': 'error',
+
+      '@typescript-eslint/no-unused-vars': ['error', { argsIgnorePattern: '^_' }],
     },
 
     languageOptions: {

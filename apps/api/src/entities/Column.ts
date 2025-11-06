@@ -1,19 +1,19 @@
 import { Column as Col, Entity, Index, ManyToOne, PrimaryGeneratedColumn } from 'typeorm'
 
-import { Column as BoardColumn } from './Column.js'
+import { Project } from './Project.js'
 
-@Entity({ name: 'tasks' })
-@Index(['column', 'position'])
-export class Task {
+@Entity({ name: 'columns' })
+@Index(['project', 'position'])
+export class Column {
   @PrimaryGeneratedColumn('uuid')
   id!: string
 
-  @Col()
+  @Col('varchar')
   title!: string
 
   @Col({ type: 'integer', default: 1000 })
   position!: number
 
-  @ManyToOne(() => BoardColumn, { onDelete: 'CASCADE' })
-  column!: BoardColumn
+  @ManyToOne(() => Project, { onDelete: 'CASCADE' })
+  project!: Project
 }

@@ -7,7 +7,7 @@ export class Project {
   @PrimaryGeneratedColumn('uuid')
   id!: string
 
-  @Col()
+  @Col('varchar')
   title!: string
 
   @ManyToOne(() => User, { onDelete: 'CASCADE' })

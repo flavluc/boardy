@@ -11,7 +11,7 @@
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "format": "prettier --write .",
-    "clean": "rm -rf .turbo && find apps packages -type d \\( -name dist -o -name build -o -name .turbo -o -name .next \\) -prune -exec rm -rf {} +"
+    "clean": "rm -rf .turbo && find apps packages \\( -name dist -o -name build -o -name tsconfig.tsbuildinfo -o -name .turbo -o -name .next \\) -prune -exec rm -rf {} +"
   },
   "keywords": [],
   "author": "",
@@ -30,10 +30,15 @@
     "eslint-plugin-react-hooks": "^7.0.1",
     "eslint-plugin-simple-import-sort": "^12.1.1",
     "eslint-plugin-unused-imports": "^4.3.0",
+    "madge": "^8.0.0",
     "prettier": "^3.6.2",
     "tsx": "^4.20.6",
     "turbo": "^2.6.0",
     "typescript": "^5.9.3",
     "typescript-eslint": "^8.46.3"
+  },
+  "dependencies": {
+    "zod": "^4.1.12",
+    "zod-to-json-schema": "^3.24.6"
   }
 }

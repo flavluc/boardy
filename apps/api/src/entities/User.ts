@@ -5,6 +5,6 @@ export class User {
   @PrimaryGeneratedColumn('uuid')
   id!: string
 
-  @Col({ unique: true })
+  @Col('varchar', { unique: true })
   email!: string
 }

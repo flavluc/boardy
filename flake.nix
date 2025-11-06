@@ -20,6 +20,11 @@
             pkgs.openssl
           ];
 
+          shellHook = ''
+            export DATABASE_URL=postgresql://postgres:!CyK0au4hAWWuQ@db.fifpfrehcubyvwczjewb.supabase.co:5432/postgres
+            export WEB_URL=https://todo.web.com
+          '';
+
           # Prevent Node/OpenSSL mismatch errors (TypeORM / Next dev issue)
           NODE_OPTIONS = "--openssl-legacy-provider";
         };

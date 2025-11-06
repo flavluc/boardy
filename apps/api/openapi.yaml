@@ -1,0 +1,321 @@
+openapi: 3.0.3
+info:
+  title: Boardy API
+  version: 1.0.0
+servers:
+  - url: /v1
+paths:
+  /auth/register:
+    post:
+      summary: Register user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RegisterRequest'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RegisterResponse'
+        '400': { $ref: '#/components/responses/ValidationError' }
+  /auth/login:
+    post:
+      summary: Login and set refresh cookie
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/LoginRequest' }
+      responses:
+        '200':
+          description: OK
+          headers:
+            Set-Cookie:
+              schema:
+                type: string
+                description: httpOnly refresh_token cookie
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/LoginResponse' }
+        '401': { $ref: '#/components/responses/AuthInvalid' }
+
+  /auth/refresh:
+    post:
+      summary: Issue new access token (uses refresh cookie)
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/RefreshResponse' }
+        '401': { $ref: '#/components/responses/AuthInvalid' }
+
+  /auth/logout:
+    post:
+      summary: Revoke refresh token and clear cookie
+      responses:
+        '204': { description: No Content }
+
+  /projects:
+    get:
+      summary: List projects
+      parameters:
+        - in: query
+          name: limit
+          schema: { type: integer, minimum: 1, maximum: 100, default: 20 }
+        - in: query
+          name: cursor
+          schema: { type: string }
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ProjectList' }
+    post:
+      summary: Create project
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/CreateProject' }
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ProjectItem' }
+
+  /projects/{projectId}:
+    get:
+      summary: Get project
+      parameters:
+        - in: path
+          name: projectId
+          required: true
+          schema: { type: string, format: uuid }
+      responses:
+        '200':
+          {
+            description: OK,
+            content: { application/json: { schema: { $ref: '#/components/schemas/ProjectItem' } } },
+          }
+        '404': { $ref: '#/components/responses/NotFound' }
+    patch:
+      summary: Update project
+      parameters:
+        - in: path
+          name: projectId
+          required: true
+          schema: { type: string, format: uuid }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/UpdateProject' }
+      responses:
+        '200':
+          {
+            description: OK,
+            content: { application/json: { schema: { $ref: '#/components/schemas/ProjectItem' } } },
+          }
+    delete:
+      summary: Delete project
+      parameters:
+        - in: path
+          name: projectId
+          required: true
+          schema: { type: string, format: uuid }
+      responses:
+        '204': { description: No Content }
+
+  /columns:
+    get:
+      summary: List columns (by project)
+      parameters:
+        - in: query
+          name: projectId
+          required: true
+          schema: { type: string, format: uuid }
+        - in: query
+          name: limit
+          schema: { type: integer, default: 20 }
+        - in: query
+          name: cursor
+          schema: { type: string }
+      responses:
+        '200':
+          {
+            description: OK,
+            content: { application/json: { schema: { $ref: '#/components/schemas/ColumnList' } } },
+          }
+    post:
+      summary: Create column
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/CreateColumn' }
+      responses:
+        '200':
+          {
+            description: OK,
+            content: { application/json: { schema: { $ref: '#/components/schemas/ColumnItem' } } },
+          }
+
+  /columns/{columnId}:
+    patch:
+      summary: Update column
+      parameters:
+        - in: path
+          name: columnId
+          required: true
+          schema: { type: string, format: uuid }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/UpdateColumn' }
+      responses:
+        '200':
+          {
+            description: OK,
+            content: { application/json: { schema: { $ref: '#/components/schemas/ColumnItem' } } },
+          }
+    delete:
+      summary: Delete column
+      parameters:
+        - in: path
+          name: columnId
+          required: true
+          schema: { type: string, format: uuid }
+      responses:
+        '204': { description: No Content }
+
+  /tasks:
+    get:
+      summary: List tasks
+      parameters:
+        - in: query
+          name: projectId
+          required: true
+          schema: { type: string, format: uuid }
+        - in: query
+          name: columnId
+          schema: { type: string, format: uuid }
+        - in: query
+          name: limit
+          schema: { type: integer, default: 20 }
+        - in: query
+          name: cursor
+          schema: { type: string }
+      responses:
+        '200':
+          {
+            description: OK,
+            content: { application/json: { schema: { $ref: '#/components/schemas/TaskList' } } },
+          }
+    post:
+      summary: Create task
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/CreateTask' }
+      responses:
+        '200':
+          {
+            description: OK,
+            content: { application/json: { schema: { $ref: '#/components/schemas/TaskItem' } } },
+          }
+
+  /tasks/{taskId}:
+    patch:
+      summary: Update task
+      parameters:
+        - in: path
+          name: taskId
+          required: true
+          schema: { type: string, format: uuid }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/UpdateTask' }
+      responses:
+        '200':
+          {
+            description: OK,
+            content: { application/json: { schema: { $ref: '#/components/schemas/TaskItem' } } },
+          }
+    delete:
+      summary: Delete task
+      parameters:
+        - in: path
+          name: taskId
+          required: true
+          schema: { type: string, format: uuid }
+      responses:
+        '204': { description: No Content }
+
+  /tasks/reorder:
+    post:
+      summary: Move a task (transactional, gap strategy)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/ReorderTask' }
+      responses:
+        '204': { description: No Content }
+
+components:
+  responses:
+    ValidationError:
+      description: Validation error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorEnvelope'
+    AuthInvalid:
+      description: Invalid or missing authentication
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorEnvelope'
+    NotFound:
+      description: Resource not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorEnvelope'
+
+  schemas:
+    # Wire Zod names 1:1 to keep parity
+    RegisterRequest: { $ref: './zod.json#/definitions/RegisterRequest' }
+    RegisterResponse: { $ref: './zod.json#/definitions/RegisterResponse' }
+    LoginRequest: { $ref: './zod.json#/definitions/LoginRequest' }
+    LoginResponse: { $ref: './zod.json#/definitions/LoginResponse' }
+    RefreshResponse: { $ref: './zod.json#/definitions/RefreshResponse' }
+
+    ProjectList: { $ref: './zod.json#/definitions/ProjectList' }
+    ProjectItem: { $ref: './zod.json#/definitions/ProjectItem' }
+    CreateProject: { $ref: './zod.json#/definitions/CreateProject' }
+    UpdateProject: { $ref: './zod.json#/definitions/UpdateProject' }
+
+    ColumnList: { $ref: './zod.json#/definitions/ColumnList' }
+    ColumnItem: { $ref: './zod.json#/definitions/ColumnItem' }
+    CreateColumn: { $ref: './zod.json#/definitions/CreateColumn' }
+    UpdateColumn: { $ref: './zod.json#/definitions/UpdateColumn' }
+
+    TaskList: { $ref: './zod.json#/definitions/TaskList' }
+    TaskItem: { $ref: './zod.json#/definitions/TaskItem' }
+    CreateTask: { $ref: './zod.json#/definitions/CreateTask' }
+    UpdateTask: { $ref: './zod.json#/definitions/UpdateTask' }
+
+    ReorderTask: { $ref: './zod.json#/definitions/ReorderTask' }
+    ErrorEnvelope: { $ref: './zod.json#/definitions/ErrorEnvelope' }
