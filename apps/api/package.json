@@ -4,7 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "tsc -p tsconfig.json",
+    "db:generate": "typeorm migration:generate src/db/migrations/init -d src/db/data-source.ts",
+    "db:run": "typeorm-ts-node-esm migration:run -d src/db/data-source.ts",
+    "db:revert": "typeorm migration:revert -d src/db/data-source.ts"
   },
   "keywords": [],
   "type": "module",
@@ -12,6 +15,7 @@
   "license": "ISC",
   "packageManager": "pnpm@10.20.0",
   "dependencies": {
+    "@boardy/shared": "workspace:*",
     "pg": "^8.16.3",
     "reflect-metadata": "^0.2.2",
     "typeorm": "^0.3.27",
@@ -21,6 +25,7 @@
     "@types/node": "^24.10.0",
     "dotenv": "^17.2.3",
     "ts-node": "^10.9.2",
+    "tsx": "^4.20.6",
     "typescript": "^5.9.3"
   }
 }

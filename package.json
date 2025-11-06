@@ -3,13 +3,15 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "private": true,
   "scripts": {
     "dev": "turbo run dev --parallel",
     "build": "turbo run build",
     "test": "turbo run test",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
-    "format": "prettier --write ."
+    "format": "prettier --write .",
+    "clean": "rm -rf .turbo && find apps packages -type d \\( -name dist -o -name build -o -name .turbo -o -name .next \\) -prune -exec rm -rf {} +"
   },
   "keywords": [],
   "author": "",

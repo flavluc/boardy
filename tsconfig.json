@@ -11,6 +11,10 @@
     "moduleResolution": "nodenext",
     "target": "esnext",
     "types": [],
+    "paths": {
+      "@boardy/shared": ["./packages/shared/src/index.ts"],
+      "@boardy/shared/*": ["./packages/shared/src/*"]
+    },
     // For nodejs:
     // "lib": ["esnext"],
     // "types": ["node"],
@@ -36,7 +40,6 @@
     // Recommended Options
     "strict": true,
     "jsx": "react-jsx",
-    "verbatimModuleSyntax": true,
     "isolatedModules": true,
     "noUncheckedSideEffectImports": true,
     "moduleDetection": "force",
