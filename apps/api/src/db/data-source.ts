@@ -3,7 +3,7 @@ dotenv.config()
 
 import { DataSource, type DataSourceOptions } from 'typeorm'
 
-import { Column as BoardColumn, Project, ProjectMember, Task, User } from '../entities/index.js'
+import { Column as BoardColumn, Project, ProjectMember, Task, User } from './index.js'
 
 const databaseUrl = process.env.DATABASE_URL
 if (!databaseUrl) {

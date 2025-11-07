@@ -48,7 +48,7 @@ export type ErrorEnvelope = z.infer<typeof ErrorEnvelope>
 export const ListResponse = <T extends z.ZodTypeAny>(item: T) =>
   z.object({
     data: z.array(item),
-    meta: PageMeta,
+    meta: PageMeta.optional(),
   })
 
 // Single item response
