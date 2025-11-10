@@ -15,7 +15,7 @@ export async function get(req: Request, res: Response) {
 
 export async function create(req: Request, res: Response) {
   const project = await service.create(req.body)
-  // @TODO: standardize these status code
+  // @TODO: centralize these status code
   res.status(201).json(ProjectItem.parse({ data: project }))
 }
 

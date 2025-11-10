@@ -18,9 +18,6 @@ export class Project {
   @Col('varchar')
   title!: string
 
-  @Col({ name: 'owner_id', type: 'uuid' })
-  ownerId!: string
-
   @ManyToOne(() => User, { onDelete: 'CASCADE' })
   @JoinColumn({ name: 'owner_id' })
   owner!: User

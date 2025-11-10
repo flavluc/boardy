@@ -8,7 +8,7 @@ export function toProjectDTO(project: Project): ProjectDTO {
   return {
     id: Id.parse(project.id),
     title: project.title,
-    ownerId: Id.parse(project.owner),
+    ownerId: Id.parse(project.owner.id),
     createdAt: ISODate.parse(project.createdAt.toISOString()),
     updatedAt: ISODate.parse(project.updatedAt.toISOString()),
   }

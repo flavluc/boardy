@@ -4,15 +4,15 @@ import { Project } from '../../db/index.js'
 export const projectRepo = AppDataSource.getRepository(Project)
 
 export async function findAll() {
-  return projectRepo.find()
+  return projectRepo.find({ relations: ['owner'] })
 }
 
 export async function findById(id: string) {
-  return projectRepo.findOne({ where: { id } })
+  return projectRepo.findOne({ where: { id }, relations: ['owner'] })
 }
 
 export async function create({ title, ownerId }: { title: string; ownerId: string }) {
-  const project = projectRepo.create({ title, ownerId })
+  const project = projectRepo.create({ title, owner: { id: ownerId } })
   return projectRepo.save(project)
 }
 

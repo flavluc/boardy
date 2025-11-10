@@ -1,23 +1,20 @@
-import * as dotenv from 'dotenv'
-dotenv.config()
+import { dirname } from 'node:path'
+import path from 'node:path'
+import { fileURLToPath } from 'node:url'
 
-import { DataSource, type DataSourceOptions } from 'typeorm'
+import { DataSource } from 'typeorm'
 
-import { Column as BoardColumn, Project, ProjectMember, Task, User } from './index.js'
+import { env, isTest } from '../config/env.ts'
+import { Column as BoardColumn, Project, ProjectMember, Task, User } from './index.ts'
 
-const databaseUrl = process.env.DATABASE_URL
-if (!databaseUrl) {
-  throw new Error('DATABASE_URL environment variable is missing')
-}
+const __dirname = dirname(fileURLToPath(import.meta.url))
 
-const dataSourceOptions: DataSourceOptions = {
+export const AppDataSource = new DataSource({
   type: 'postgres',
-  url: databaseUrl,
-  ssl: { rejectUnauthorized: false },
+  url: env.DATABASE_URL,
+  ssl: isTest ? false : { rejectUnauthorized: false },
   synchronize: false,
   logging: false,
   entities: [BoardColumn, Project, ProjectMember, Task, User],
-  migrations: ['src/db/migrations/*.{ts,js}'],
-}
-
-export const AppDataSource = new DataSource(dataSourceOptions)
+  migrations: [path.join(__dirname, '../db/migrations/*.{ts,js}')],
+})
