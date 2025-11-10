@@ -20,7 +20,15 @@ export const PageMeta = z.object({
 })
 export type PageMeta = z.infer<typeof PageMeta>
 
-// Error envelope (stable codes for UI/state machines)
+export enum HttpStatus {
+  OK = 200,
+  CREATED = 201,
+  NO_CONTENT = 204,
+  BAD_REQUEST = 400,
+  NOT_FOUND = 404,
+  INTERNAL_SERVER_ERROR = 500,
+}
+
 export const ErrorCode = z.enum([
   'VALIDATION_ERROR',
   'AUTH_INVALID_CREDENTIALS',

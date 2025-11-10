@@ -1,6 +1,6 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 
-import { Errors } from '../../src/errors'
+import { Errors } from '../../src/utils/errors'
 import { makeProject, uuid } from '../helpers/factories'
 
 vi.mock('../../src/modules/project/repository', () => ({
@@ -77,13 +77,14 @@ describe('Project Service', () => {
 
   it('update() returns updated DTO', async () => {
     const project = makeProject({ title: 'Test' })
-    mockedRepo.update.mockResolvedValue(project)
+    mockedRepo.update.mockImplementation(async ({ title }) => ({ ...project, title: title }))
 
-    const result = await service.update(project.id, { title: 'Test' })
+    const args = { title: 'Updated Test' }
+    const result = await service.update(project.id, args)
 
     expect(result).toMatchObject({
       id: project.id,
-      title: 'Test',
+      title: args.title,
       ownerId: project.owner.id,
       createdAt: project.createdAt.toISOString(),
       updatedAt: project.updatedAt.toISOString(),

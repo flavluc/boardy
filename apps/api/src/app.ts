@@ -2,6 +2,7 @@ import * as Sentry from '@sentry/node'
 
 import { env } from './config/env.js'
 import projectRouter from './modules/project/router.js'
+import userRouter from './modules/user/router.js'
 
 // @TODO: the docs says to put into instrument.mjs, check if the current approach work
 if (env.SENTRY_DSN) {
@@ -36,6 +37,7 @@ app.get('/readyz', async (_req, res) => {
 })
 
 app.use('/projects', projectRouter)
+app.use('/users', userRouter)
 
 if (env.SENTRY_DSN) {
   Sentry.setupExpressErrorHandler(app)

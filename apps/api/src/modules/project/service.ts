@@ -1,7 +1,7 @@
 import { CreateProject, Id, ISODate, ProjectDTO, UpdateProject } from '@boardy/shared'
 
 import { Project } from '../../db/index.js'
-import { Errors } from '../../errors.js'
+import { Errors } from '../../utils/errors.js'
 import * as repo from './repository.js'
 
 export function toProjectDTO(project: Project): ProjectDTO {
