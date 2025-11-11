@@ -5,7 +5,7 @@ import { fileURLToPath } from 'node:url'
 import { DataSource } from 'typeorm'
 
 import { env, isTest } from '../config/env.ts'
-import { Column as BoardColumn, Project, ProjectMember, Task, User } from './index.ts'
+import { Column as BoardColumn, Project, ProjectMember, RefreshToken, Task, User } from './index.ts'
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
 
@@ -15,6 +15,6 @@ export const AppDataSource = new DataSource({
   ssl: isTest ? false : { rejectUnauthorized: false },
   synchronize: false,
   logging: false,
-  entities: [BoardColumn, Project, ProjectMember, Task, User],
+  entities: [BoardColumn, Project, ProjectMember, RefreshToken, Task, User],
   migrations: [path.join(__dirname, '../db/migrations/*.{ts,js}')],
 })

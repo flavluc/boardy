@@ -15,5 +15,6 @@ export async function initDB() {
 export * from './entities/Column.js'
 export * from './entities/Project.js'
 export * from './entities/ProjectMember.js'
+export * from './entities/RefreshToken.js'
 export * from './entities/Task.js'
 export * from './entities/User.js'

@@ -11,8 +11,12 @@ export async function findById(id: string) {
   return userRepo.findOne({ where: { id } })
 }
 
-export async function create({ email }: { email: string }) {
-  const user = userRepo.create({ email })
+export async function findByEmail(email: string) {
+  return userRepo.findOne({ where: { email } })
+}
+
+export async function create({ email, password }: { email: string; password: string }) {
+  const user = userRepo.create({ email, password })
   return userRepo.save(user)
 }
 

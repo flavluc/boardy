@@ -1,8 +1,9 @@
 import * as Sentry from '@sentry/node'
 
-import { env } from './config/env.js'
-import projectRouter from './modules/project/router.js'
-import userRouter from './modules/user/router.js'
+import { env } from './config/env'
+import authRouter from './modules/auth/router'
+import projectRouter from './modules/project/router'
+import userRouter from './modules/user/router'
 
 // @TODO: the docs says to put into instrument.mjs, check if the current approach work
 if (env.SENTRY_DSN) {
@@ -16,7 +17,7 @@ import cookieParser from 'cookie-parser'
 import cors from 'cors'
 import express, { type Express } from 'express'
 
-import { errorHandler } from './middlewares/errorHandler.js'
+import { errorHandler } from './middlewares/errorHandler'
 
 const app: Express = express()
 
@@ -38,6 +39,7 @@ app.get('/readyz', async (_req, res) => {
 
 app.use('/projects', projectRouter)
 app.use('/users', userRouter)
+app.use('/auth', authRouter)
 
 if (env.SENTRY_DSN) {
   Sentry.setupExpressErrorHandler(app)

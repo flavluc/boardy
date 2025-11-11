@@ -9,6 +9,8 @@ const Schema = z.object({
   WEB_URL: z.url().optional(),
   DATABASE_URL: z.url(),
   SENTRY_DSN: z.url().optional(),
+  JWT_ACCESS_SECRET: z.string().min(16),
+  JWT_REFRESH_SECRET: z.string().min(16),
 })
 
 export const env = Schema.parse(process.env)
