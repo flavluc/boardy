@@ -1,5 +1,0 @@
-# apps/web/.prettierignore
-node_modules
-.next
-.out
-dist

@@ -3,5 +3,5 @@ export default function LoginPage() {
     <div className="flex h-screen items-center justify-center">
       <h1>Login Screen</h1>
     </div>
-  );
+  )
 }

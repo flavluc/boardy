@@ -1,17 +1,17 @@
-import Link from 'next/link';
+import Link from 'next/link'
 
 async function getUserData() {
   // Simulating a network delay
-  await new Promise((resolve) => setTimeout(resolve, 500));
+  await new Promise((resolve) => setTimeout(resolve, 500))
   return {
     name: 'Alex Johnson',
     email: 'alex@example.com',
     projectsCount: 5,
-  };
+  }
 }
 
 export default async function DashboardOverviewPage() {
-  const userData = await getUserData();
+  const userData = await getUserData()
 
   return (
     <div>
@@ -20,5 +20,5 @@ export default async function DashboardOverviewPage() {
       <p>You have {userData.projectsCount} active projects.</p>
       <Link href="/dashboard/projects">View all projects</Link>
     </div>
-  );
+  )
 }
