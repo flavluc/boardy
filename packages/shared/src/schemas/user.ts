@@ -1,17 +1,25 @@
 import { z } from 'zod'
 
-import { Id, ISODate, ItemResponse, ListResponse, PageQuery } from '../primitives.js'
+import {
+  Email,
+  Id,
+  ISODate,
+  ItemResponse,
+  ListResponse,
+  PageQuery,
+  Password,
+} from '../primitives.js'
 
 export const UserDTO = z.object({
   id: Id,
-  email: z.email(),
+  email: Email,
+  password: Password,
   createdAt: ISODate,
   updatedAt: ISODate,
 })
 export type UserDTO = z.infer<typeof UserDTO>
 
-export const CreateUser = z.object({ email: z.email() })
-export const UpdateUser = z.object({ email: z.email() })
+export const UpdateUser = z.object({ email: Email })
 
 export const UserListQuery = PageQuery
 

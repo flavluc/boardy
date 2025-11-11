@@ -1,6 +1,6 @@
 import { ErrorCode } from '@boardy/shared'
 
-class ApiError extends Error {
+export class ApiError extends Error {
   readonly code: ErrorCode
   readonly details?: unknown
 

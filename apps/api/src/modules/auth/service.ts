@@ -2,6 +2,7 @@ import { Errors } from '../../utils/errors'
 import { signAccessToken, signRefreshToken, verifyRefreshToken } from '../../utils/jwt'
 import { hashPassword, verifyPassword } from '../../utils/password'
 import * as userRepo from '../user/repository'
+import { toUserDTO } from '../user/service'
 import * as refreshRepo from './repository'
 
 export async function register(email: string, password: string) {
@@ -13,7 +14,7 @@ export async function register(email: string, password: string) {
     password: await hashPassword(password),
   })
 
-  return user
+  return toUserDTO(user)
 }
 
 export async function login(email: string, password: string) {
@@ -26,10 +27,12 @@ export async function login(email: string, password: string) {
   const accessToken = signAccessToken(user.id)
   const refreshToken = signRefreshToken(user.id, refresh.id)
 
-  return { user, accessToken, refreshToken }
+  return { user: toUserDTO(user), accessToken, refreshToken }
 }
 
 export async function refresh(oldToken: string) {
+  if (!oldToken) throw Errors.Auth.MissingToken()
+
   let payload
   try {
     payload = verifyRefreshToken(oldToken)

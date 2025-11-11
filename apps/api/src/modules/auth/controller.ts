@@ -13,7 +13,8 @@ import * as service from './service'
 export async function register(req: Request, res: Response) {
   const { email, password } = RegisterRequest.parse(req.body)
   const user = await service.register(email, password)
-  created(res, RegisterResponse.parse({ data: user }))
+
+  created(res, RegisterResponse.parse({ data: { user } }))
 }
 
 export async function login(req: Request, res: Response) {

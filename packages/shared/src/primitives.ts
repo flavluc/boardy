@@ -1,8 +1,10 @@
 import { z } from 'zod'
 
-// Canonical id + timestamps used across DTOs
 export const Id = z.uuid().brand<'Id'>()
 export type Id = z.infer<typeof Id>
+
+export const Email = z.email()
+export const Password = z.string().min(6).max(128)
 
 export const ISODate = z.iso.datetime({ offset: true }).brand<'ISODate'>()
 export type ISODate = z.infer<typeof ISODate>
@@ -26,6 +28,10 @@ export enum HttpStatus {
   NO_CONTENT = 204,
   BAD_REQUEST = 400,
   NOT_FOUND = 404,
+  UNAUTHORIZED = 401,
+  FORBIDDEN = 403,
+  CONFLICT = 409,
+  TOO_MANY_REQUESTS = 429,
   INTERNAL_SERVER_ERROR = 500,
 }
 

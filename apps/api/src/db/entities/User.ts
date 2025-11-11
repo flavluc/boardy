@@ -14,7 +14,7 @@ export class User {
   @Col('varchar', { unique: true })
   email!: string
 
-  @Col({ select: false })
+  @Col('varchar')
   password!: string
 
   //@TODO: change this to a trigger based approach on SQL

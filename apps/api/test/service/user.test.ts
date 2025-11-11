@@ -1,5 +1,4 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest'
-import { ZodError } from 'zod'
 
 import { Errors } from '../../src/utils/errors'
 import { makeUser, uuid } from '../helpers/factories'
@@ -56,30 +55,6 @@ describe('User Service', () => {
     mockedRepo.findById.mockResolvedValue(null)
     const id = uuid()
     await expect(service.get(id)).rejects.toEqual(Errors.NotFound(id))
-  })
-
-  it('create() validates input and returns DTO', async () => {
-    const user = makeUser()
-    mockedRepo.create.mockResolvedValue(user)
-
-    const result = await service.create({ email: user.email })
-
-    expect(result).toMatchObject({
-      id: user.id,
-      email: user.email,
-      createdAt: user.createdAt.toISOString(),
-      updatedAt: user.updatedAt.toISOString(),
-    })
-  })
-
-  it('create() throws error with invalid email', async () => {
-    const invalidData = { email: 'not-an-email' }
-
-    await expect(service.create(invalidData)).rejects.toBeInstanceOf(ZodError)
-    await expect(service.create(invalidData)).rejects.toHaveProperty('issues')
-    await expect(service.create(invalidData)).rejects.toHaveProperty('issues.0.path', ['email'])
-
-    expect(mockedRepo.create).not.toHaveBeenCalled()
   })
 
   it('update() returns updated DTO', async () => {

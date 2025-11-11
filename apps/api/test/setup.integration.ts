@@ -1,9 +1,9 @@
-import { PostgreSqlContainer } from '@testcontainers/postgresql'
+import { PostgreSqlContainer, StartedPostgreSqlContainer } from '@testcontainers/postgresql'
 import { afterAll, beforeAll } from 'vitest'
 
 import { AppDataSource } from '../src/db/data-source'
 
-let container
+let container: StartedPostgreSqlContainer
 
 beforeAll(async () => {
   container = await new PostgreSqlContainer('postgres:17').start()
