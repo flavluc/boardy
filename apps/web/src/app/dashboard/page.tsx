@@ -2,11 +2,11 @@ import Link from 'next/link';
 
 async function getUserData() {
   // Simulating a network delay
-  await new Promise(resolve => setTimeout(resolve, 500)); 
+  await new Promise((resolve) => setTimeout(resolve, 500));
   return {
-    name: "Alex Johnson",
-    email: "alex@example.com",
-    projectsCount: 5
+    name: 'Alex Johnson',
+    email: 'alex@example.com',
+    projectsCount: 5,
   };
 }
 
