@@ -1,17 +1,38 @@
+'use client'
+
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
+import { useEffect } from 'react'
+
 import { Button } from '@/components/ui/button'
-import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { useToken } from '@/lib/token'
 
 export default function HomePage() {
+  const router = useRouter()
+  const accessToken = useToken((s) => s.accessToken)
+
+  // If user is logged in, redirect to dashboard
+  useEffect(() => {
+    if (accessToken) {
+      router.replace('/dashboard')
+    }
+  }, [accessToken, router])
+
+  if (accessToken) {
+    // while redirecting, show nothing
+    return null
+  }
+
   return (
     <div className="flex h-screen items-center justify-center bg-gray-50">
       <Card className="w-[450px] shadow-lg">
         <CardHeader>
-          <CardTitle className="text-2xl font-semibold">Welcome to Project Flow</CardTitle>
+          <CardTitle className="text-2xl font-semibold">Welcome to Boardy</CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
           <p className="text-gray-600">
-            This is the home page. Use the links below to navigate to the authentication screens.
+            A simple Kanban board built for learning full-stack architecture.
           </p>
 
           <div className="flex flex-col space-y-3">
@@ -22,11 +43,6 @@ export default function HomePage() {
 
             <Button asChild variant="outline" className="w-full">
               <Link href="/register">Go to Register</Link>
-            </Button>
-
-            {/* This button will eventually link to a protected route */}
-            <Button asChild variant="ghost" className="w-full">
-              <Link href="/board/test-project-1">View Test Board (Dynamic Route)</Link>
             </Button>
           </div>
         </CardContent>

@@ -1,4 +1,6 @@
 import js from '@eslint/js'
+import nextVitals from 'eslint-config-next/core-web-vitals'
+import nextTypescript from 'eslint-config-next/typescript'
 import prettierPlugin from 'eslint-plugin-prettier'
 import simpleImportSort from 'eslint-plugin-simple-import-sort'
 import unusedImports from 'eslint-plugin-unused-imports'
@@ -8,6 +10,17 @@ export default [
   // Shared base config
   js.configs.recommended,
   ...tseslint.configs.recommended,
+
+  // Apply Next.js config properly under /apps/web
+  ...nextVitals.map((config) => ({
+    ...config,
+    files: ['apps/web/**/*.{ts,tsx,js,jsx}', 'apps/web/**/*.mts'],
+  })),
+
+  ...nextTypescript.map((config) => ({
+    ...config,
+    files: ['apps/web/**/*.{ts,tsx,js,jsx}', 'apps/web/**/*.mts'],
+  })),
 
   {
     plugins: {
@@ -61,20 +74,22 @@ export default [
   // Frontend (Next.js)
   {
     files: ['apps/web/**/*.{ts,tsx,js,jsx}', 'apps/web/**/*.mts'],
+
+    languageOptions: {
+      parser: tseslint.parser,
+      parserOptions: { ecmaFeatures: { jsx: true } },
+    },
+
     plugins: {
       react: (await import('eslint-plugin-react')).default,
       'react-hooks': (await import('eslint-plugin-react-hooks')).default,
       a11y: (await import('eslint-plugin-jsx-a11y')).default,
     },
+
     rules: {
       'react-hooks/rules-of-hooks': 'error',
       'react-hooks/exhaustive-deps': 'warn',
-      'react/react-in-jsx-scope': 'off', // Next.js doesn't require it
-    },
-    languageOptions: {
-      parserOptions: {
-        ecmaFeatures: { jsx: true },
-      },
+      'react/react-in-jsx-scope': 'off',
     },
   },
 

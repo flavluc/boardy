@@ -1,22 +1,33 @@
-import Link from 'next/link'
+'use client'
 
-export default function DashboardLayout({ children }: Readonly<{ children: React.ReactNode }>) {
+import { useRouter } from 'next/navigation'
+import { useEffect } from 'react'
+
+import Toolbar from '@/components/layout/Toolbar'
+import { useToken } from '@/lib/token'
+
+export default function DashboardLayout({ children }: { children: React.ReactNode }) {
+  const router = useRouter()
+  const { accessToken } = useToken()
+
+  useEffect(() => {
+    if (!accessToken) {
+      router.replace('/login')
+    }
+  }, [accessToken, router])
+
+  if (!accessToken) {
+    return (
+      <div className="flex h-screen items-center justify-center text-gray-500">
+        Redirecting to login...
+      </div>
+    )
+  }
+
   return (
-    <div style={{ display: 'flex', minHeight: 'calc(100vh - 65px)' }}>
-      {' '}
-      {/* Adjust height based on your header */}
-      {/* Sidebar Navigation (Persistent within Dashboard) */}
-      <aside style={{ width: '250px', padding: '2rem', borderRight: '1px solid #ccc' }}>
-        <nav style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-          <Link href="/dashboard">Overview</Link>
-          <Link href="/dashboard/projects">Projects</Link>
-          <Link href="/dashboard/settings">Settings (@TODO)</Link>
-        </nav>
-      </aside>
-      {/* Main Dashboard Content Area */}
-      <section style={{ flexGrow: 1, padding: '2rem' }}>
-        {children} {/* Renders the specific dashboard page content (overview, projects, etc.) */}
-      </section>
+    <div className="flex min-h-screen flex-col bg-gray-50">
+      <Toolbar />
+      <main className="flex-1 p-6">{children}</main>
     </div>
   )
 }

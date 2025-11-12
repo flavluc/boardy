@@ -6,9 +6,8 @@ import { z } from 'zod'
 const Schema = z.object({
   NODE_ENV: z.enum(['development', 'test', 'production']).default('development'),
   PORT: z.coerce.number().default(3001),
-  WEB_URL: z.url().optional(),
+  WEB_URL: z.url().default('http://localhost:3001'),
   DATABASE_URL: z.url(),
-  SENTRY_DSN: z.url().optional(),
   JWT_ACCESS_SECRET: z.string().min(16),
   JWT_REFRESH_SECRET: z.string().min(16),
 })

@@ -1,7 +1,93 @@
+'use client'
+
+import { LoginResponse, RegisterRequest } from '@boardy/shared'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { useRouter } from 'next/navigation'
+import { useForm } from 'react-hook-form'
+import { z } from 'zod'
+
+import { Button } from '@/components/ui/button'
+import { Form, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
+import { Input } from '@/components/ui/input'
+import { api } from '@/lib/api'
+import { useToken } from '@/lib/token'
+
+type FormData = z.infer<typeof RegisterRequest>
+
 export default function RegisterPage() {
+  const router = useRouter()
+  const setToken = useToken((s) => s.setToken)
+
+  const form = useForm<FormData>({
+    resolver: zodResolver(RegisterRequest),
+    defaultValues: { email: '', password: '' },
+  })
+
+  async function onSubmit(values: FormData) {
+    try {
+      await api('/auth/register', {
+        method: 'POST',
+        body: JSON.stringify(values),
+      })
+
+      const loginRes = await api('/auth/login', {
+        method: 'POST',
+        body: JSON.stringify(values),
+      })
+
+      const parsedLogin = LoginResponse.parse(loginRes)
+      setToken(parsedLogin.data.access)
+
+      router.push('/dashboard')
+    } catch (err) {
+      console.error(err)
+      const message = 'Registration failed, please try again.'
+      form.setError('email', { message })
+    }
+  }
+
+  const isSubmitting = form.formState.isSubmitting
+
   return (
-    <div className="flex h-screen items-center justify-center">
-      <h1>Register Screen</h1>
-    </div>
+    <main className="mx-auto max-w-sm py-16">
+      <h1 className="mb-6 text-2xl font-semibold">Create your account</h1>
+
+      <Form {...form}>
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+          <FormField
+            name="email"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Email</FormLabel>
+                <Input type="email" placeholder="you@example.com" {...field} />
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            name="password"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Password</FormLabel>
+                <Input type="password" placeholder="••••••••" {...field} />
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <Button type="submit" disabled={isSubmitting} className="w-full cursor-pointer">
+            {isSubmitting ? 'Creating...' : 'Create account'}
+          </Button>
+        </form>
+      </Form>
+
+      <p className="mt-4 text-center text-sm text-gray-500">
+        Already have an account?{' '}
+        <a href="/login" className="text-blue-600 hover:underline">
+          Log in
+        </a>
+      </p>
+    </main>
   )
 }
