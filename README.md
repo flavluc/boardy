@@ -1,17 +1,25 @@
-steps:
-
-- create apps/api/.env:
-  `DATABASE_URL=postgresql://postgres:<PASSWORD>@db.<PROJECT>.supabase.co:5432/postgres`
-
-- create `.vscode/settings.json`
-
-```
-{
-  "editor.defaultFormatter": "esbenp.prettier-vscode",
-  "editor.formatOnSave": true,
-  "editor.codeActionsOnSave": {
-   "source.organizeImports": "explicit",
-   "source.fixAll.eslint": "explicit"
-  }
-}
-```
+- ### Stack
+  - 1.  Front-End Framework / App Architecture
+    - Next.js
+  - 2.  Styling & UI Components
+    - Tailwind, shadcn/ui
+  - 3.  Forms & Validation
+    - React Hook Form + Zod
+  - 4.  State Management
+    - Zustand
+  - 5.  Data Fetching & Server State
+    - React Query (TanStack Query)
+  - 6.  Backend Framework
+    - Express
+  - 7.  Database ORM
+    - Postgres, TypeORM
+  - 8.  Deployment / Hosting
+    - Vercel, Supabase
+  - 9.  Infrastructure / Production Ops (only overview of concepts)
+    - Kubernetes, Terraform, Prometheus, Grafana, Sentry
+  - 10. Testing
+    - Vitest, Playwright, MSW
+  - 11. Tooling
+    - TypeScript, pnpm, Turborepo
+  - 12. Editor / Extensions
+    - VS Code, (what more?)
