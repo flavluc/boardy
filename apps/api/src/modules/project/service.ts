@@ -20,7 +20,7 @@ export async function list() {
 }
 
 export async function get(id: unknown) {
-  const projectId = Id.parse(id)
+  const projectId = Id.parse(id) //move this to controller
   const project = await repo.findById(projectId)
   if (!project) throw Errors.NotFound(projectId)
   return toProjectDTO(project)
