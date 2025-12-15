@@ -14,11 +14,6 @@ export function toUserDTO(user: User): Omit<UserDTO, 'password'> {
   }
 }
 
-export async function list() {
-  const users = await repo.findAll()
-  return users.map(toUserDTO)
-}
-
 export async function get(id: Id) {
   const user = await repo.findById(id)
   if (!user) throw Errors.NotFound(id)
@@ -26,11 +21,10 @@ export async function get(id: Id) {
 }
 
 //@TODO: fix id parsing
-export async function update(id: unknown, data: unknown) {
-  const userId = Id.parse(id)
+export async function update(id: Id, data: unknown) {
   const { email } = UpdateUser.parse(data)
-  const user = await repo.update({ id: userId, email })
-  if (!user) throw Errors.NotFound(userId)
+  const user = await repo.update(id, { email })
+  if (!user) throw Errors.NotFound(id)
 
   return toUserDTO(user)
 }

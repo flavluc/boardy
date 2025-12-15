@@ -1,7 +1,6 @@
 import {
   LoginRequest,
   LoginResponse,
-  MeResponse,
   RefreshResponse,
   RegisterRequest,
   RegisterResponse,
@@ -9,7 +8,6 @@ import {
 import { Request, Response } from 'express'
 
 import { created, noContent, ok } from '../../utils/http'
-import * as userService from '../user/service'
 import * as service from './service'
 
 export async function register(req: Request, res: Response) {
@@ -45,12 +43,6 @@ export async function refresh(req: Request, res: Response) {
   })
 
   ok(res, RefreshResponse.parse({ data: { access: accessToken } }))
-}
-
-export async function me(req: Request, res: Response) {
-  const user = await userService.get(req.userId)
-
-  ok(res, MeResponse.parse({ data: { user } }))
 }
 
 export async function logout(req: Request, res: Response) {

@@ -1,12 +1,12 @@
 import { Router } from 'express'
 
-import * as controller from './controller.js'
+import { authGuard } from '../../middlewares/authGuard'
+import * as controller from './controller'
 
 const router: Router = Router()
 
-router.get('/', controller.list)
-router.get('/:id', controller.get)
-router.patch('/:id', controller.update)
-router.delete('/:id', controller.remove)
+router.get('/me', authGuard, controller.get)
+router.patch('/me', authGuard, controller.update)
+router.delete('/me', authGuard, controller.remove)
 
 export default router

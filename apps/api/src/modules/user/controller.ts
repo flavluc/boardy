@@ -1,21 +1,17 @@
-import { UserItem, UserList } from '@repo/schemas'
+import { UserItem } from '@repo/schemas'
 import type { Request, Response } from 'express'
 
 import { noContent, ok } from '../../utils/http'
 import * as service from './service.js'
 
-export async function list(_req: Request, res: Response) {
-  const users = await service.list()
-  ok(res, UserList.parse({ data: users }))
-}
-
 export async function get(req: Request, res: Response) {
-  const user = await service.get(req.params.id)
+  const user = await service.get(req.userId)
+
   ok(res, UserItem.parse({ data: user }))
 }
 
 export async function update(req: Request, res: Response) {
-  const user = await service.update(req.params.id, req.body)
+  const user = await service.update(req.userId, req.body)
   ok(res, UserItem.parse({ data: user }))
 }
 

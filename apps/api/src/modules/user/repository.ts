@@ -28,7 +28,7 @@ export async function create({
   return userRepo.save(user)
 }
 
-export async function update({ id, email }: { id: string; email: string }) {
+export async function update(id: string, { email }: { email: string }) {
   const user = await findById(id)
   if (!user) return null
 

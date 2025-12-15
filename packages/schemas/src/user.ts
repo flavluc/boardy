@@ -22,6 +22,7 @@ export const UserDTO = z.object({
 export type UserDTO = z.infer<typeof UserDTO>
 
 export const UpdateUser = z.object({ email: Email })
+export type UpdateUser = z.infer<typeof UpdateUser>
 
 export const UserListQuery = PageQuery
 
