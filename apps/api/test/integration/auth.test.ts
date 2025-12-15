@@ -2,8 +2,8 @@ import request from 'supertest'
 import { afterEach, describe, expect, it } from 'vitest'
 
 import app from '../../src/app'
-import { AppDataSource } from '../../src/db/data-source'
-import { User } from '../../src/db/index'
+import { AppDataSource } from '../../src/database/data-source'
+import { User } from '../../src/database/index'
 import { cleanDatabase, createUser } from '../helpers/db'
 import { getCookie } from '../helpers/http'
 

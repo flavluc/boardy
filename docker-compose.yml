@@ -1,0 +1,67 @@
+services:
+  postgres:
+    image: postgres:16
+    container_name: boardy-postgres
+    restart: unless-stopped
+    ports:
+      - '5432:5432'
+    environment:
+      POSTGRES_DB: boardy
+      POSTGRES_USER: boardy
+      POSTGRES_PASSWORD: boardy
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - boardy-network
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U boardy -d boardy']
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 20s
+
+  api:
+    build:
+      context: .
+      dockerfile: ./apps/api/Dockerfile
+    container_name: boardy-api
+    restart: unless-stopped
+    ports:
+      - '3001:3001'
+    environment:
+      NODE_ENV: production
+      PORT: 3001
+      DATABASE_URL: ${DATABASE_URL}
+      JWT_ACCESS_SECRET: ${JWT_ACCESS_SECRET}
+      WEB_URL: ${WEB_URL:-http://localhost:3000}
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - boardy-network
+
+  web:
+    build:
+      context: .
+      dockerfile: ./apps/web/Dockerfile
+      args:
+        NEXT_PUBLIC_API_URL: ${NEXT_PUBLIC_API_URL:-http://localhost:3001}
+    container_name: boardy-web
+    restart: unless-stopped
+    ports:
+      - '3000:3000'
+    environment:
+      NODE_ENV: production
+      NEXT_PUBLIC_API_URL: ${NEXT_PUBLIC_API_URL:-http://localhost:3001}
+    depends_on:
+      - api
+    networks:
+      - boardy-network
+
+networks:
+  boardy-network:
+    driver: bridge
+
+volumes:
+  postgres_data:
+    driver: local

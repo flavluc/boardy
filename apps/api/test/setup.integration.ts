@@ -1,7 +1,7 @@
 import { PostgreSqlContainer, StartedPostgreSqlContainer } from '@testcontainers/postgresql'
 import { afterAll, beforeAll } from 'vitest'
 
-import { AppDataSource } from '../src/db/data-source'
+import { AppDataSource } from '../src/database/data-source'
 
 let container: StartedPostgreSqlContainer
 

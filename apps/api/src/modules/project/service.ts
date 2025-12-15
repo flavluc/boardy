@@ -1,6 +1,6 @@
-import { CreateProject, Id, ISODate, ProjectDTO, UpdateProject } from '@boardy/shared'
+import { CreateProject, Id, ISODate, ProjectDTO, UpdateProject } from '@repo/schemas'
 
-import { Project } from '../../db/index.js'
+import { Project } from '../../database/index.js'
 import { Errors } from '../../utils/errors.js'
 import * as repo from './repository.js'
 

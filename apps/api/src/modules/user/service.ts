@@ -1,12 +1,13 @@
-import { Id, ISODate, UpdateUser, UserDTO } from '@boardy/shared'
+import { Id, ISODate, UpdateUser, UserDTO } from '@repo/schemas'
 
-import { User } from '../../db/index.js'
+import { User } from '../../database/index.js'
 import { Errors } from '../../utils/errors.js'
 import * as repo from './repository.js'
 
 export function toUserDTO(user: User): UserDTO {
   return {
     id: Id.parse(user.id),
+    name: user.name,
     email: user.email,
     password: user.password,
     createdAt: ISODate.parse(user.createdAt.toISOString()),
@@ -19,13 +20,13 @@ export async function list() {
   return users.map(toUserDTO)
 }
 
-export async function get(id: unknown) {
-  const userId = Id.parse(id)
-  const user = await repo.findById(userId)
-  if (!user) throw Errors.NotFound(userId)
+export async function get(id: Id) {
+  const user = await repo.findById(id)
+  if (!user) throw Errors.NotFound(id)
   return toUserDTO(user)
 }
 
+//@TODO: fix id parsing
 export async function update(id: unknown, data: unknown) {
   const userId = Id.parse(id)
   const { email } = UpdateUser.parse(data)

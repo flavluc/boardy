@@ -1,24 +1,22 @@
 {
   "name": "api",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "type": "module",
+  "private": true,
   "scripts": {
-    "build": "tsc -p tsconfig.json",
+    "start": "node dist/index.js",
+    "build": "tsup",
+    "check-types": "tsc --noEmit",
+    "lint": "eslint src/ --max-warnings 0",
     "dev": "tsx --watch src/server.ts",
-    "db:generate": "typeorm-ts-node-esm migration:generate src/db/migrations/init -d src/db/data-source.ts",
-    "db:run": "typeorm-ts-node-esm migration:run -d src/db/data-source.ts",
-    "db:revert": "typeorm migration:revert -d src/db/data-source.ts",
+    "db:generate": "typeorm-ts-node-esm migration:generate src/database/migrations/init -d src/database/data-source.ts",
+    "db:run": "typeorm-ts-node-esm migration:run -d src/database/data-source.ts",
+    "db:revert": "typeorm-ts-node-esm migration:revert -d src/database/data-source.ts",
     "test": "vitest run",
     "test:watch": "vitest"
   },
-  "keywords": [],
-  "type": "module",
-  "author": "",
-  "license": "ISC",
-  "packageManager": "pnpm@10.20.0",
   "dependencies": {
-    "@boardy/shared": "workspace:*",
+    "@repo/schemas": "workspace:*",
     "@sentry/node": "^10.23.0",
     "@types/bcryptjs": "^3.0.0",
     "bcrypt": "^6.0.0",
@@ -40,9 +38,12 @@
     "@types/express": "^5.0.5",
     "@types/express-serve-static-core": "^5.1.0",
     "@types/jsonwebtoken": "^9.0.10",
+    "@types/node": "^25.0.1",
     "ts-node": "^10.9.2",
+    "tsup": "^8.5.0",
     "tsx": "^4.20.6",
     "typescript": "^5.9.3",
-    "vite-tsconfig-paths": "^5.1.4"
+    "vite-tsconfig-paths": "^5.1.4",
+    "vitest": "^4.0.7"
   }
 }

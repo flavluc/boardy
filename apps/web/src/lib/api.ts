@@ -1,17 +1,19 @@
 'use client'
 
+import { MeResponse, RefreshResponse } from '@repo/schemas'
 import { env } from './env'
-import { useToken } from './token'
+import { useAuth } from './session'
 
 let refreshing: Promise<string | null> | null = null
 
+//@TODO: proper error handling to this function
 async function refreshAccess(): Promise<string | null> {
   if (refreshing) {
     return refreshing
   }
 
   refreshing = (async () => {
-    const res = await fetch(`${env.NEXT_PUBLIC_API_URL}/auth/refresh`, {
+    let res = await fetch(`${env.NEXT_PUBLIC_API_URL}/auth/refresh`, {
       method: 'POST',
       credentials: 'include',
     })
@@ -21,13 +23,30 @@ async function refreshAccess(): Promise<string | null> {
       return null
     }
 
-    const { data } = await res.json()
-    const token = data?.access ?? null
+    const {
+      data: { access },
+    } = await res.json().then(RefreshResponse.parse)
 
-    useToken.getState().setToken(token)
+    res = await fetch(`${env.NEXT_PUBLIC_API_URL}/auth/me`, {
+      method: 'GET',
+      credentials: 'include',
+      headers: {
+        Authorization: `Bearer ${access}`,
+      },
+    })
+
+    if (!res.ok) {
+      refreshing = null
+      return null
+    }
+    const {
+      data: { user },
+    } = await res.json().then(MeResponse.parse)
+
+    useAuth.getState().setSession(access, user)
 
     refreshing = null
-    return token
+    return access
   })()
 
   return refreshing
@@ -42,16 +61,22 @@ export async function api<T = unknown>(
   options: RequestInit = {},
   attempt = 0
 ): Promise<T> {
-  const token = useToken.getState().accessToken
+  const token = useAuth.getState().accessToken
   const isAuthRoute = path.startsWith('/auth')
+
+  const headers = new Headers(options.headers)
+
+  if (options.body !== undefined) {
+    headers.set('Content-Type', 'application/json')
+  }
+
+  if (token && !isAuthRoute) {
+    headers.set('Authorization', `Bearer ${token}`)
+  }
 
   const res = await fetch(`${env.NEXT_PUBLIC_API_URL}${path}`, {
     ...options,
-    headers: {
-      'Content-Type': 'application/json',
-      ...(options.headers || {}),
-      ...(token && !isAuthRoute ? { Authorization: `Bearer ${token}` } : {}),
-    },
+    headers,
     credentials: 'include',
   })
 

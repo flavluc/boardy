@@ -1,4 +1,4 @@
-import type { Project } from '../../../src/db/entities/Project'
+import type { Project } from '../../../src/database/entities/Project'
 import { mockEntity, now, uuid } from './index'
 import { makeUser } from './user'
 

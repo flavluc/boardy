@@ -1,5 +1,5 @@
-import { AppDataSource } from '../../db/data-source.js'
-import { User } from '../../db/index.js'
+import { AppDataSource } from '../../database/data-source.js'
+import { User } from '../../database/index.js'
 
 export const userRepo = AppDataSource.getRepository(User)
 
@@ -15,8 +15,16 @@ export async function findByEmail(email: string) {
   return userRepo.findOne({ where: { email } })
 }
 
-export async function create({ email, password }: { email: string; password: string }) {
-  const user = userRepo.create({ email, password })
+export async function create({
+  name,
+  email,
+  password,
+}: {
+  name: string
+  email: string
+  password: string
+}) {
+  const user = userRepo.create({ name, email, password })
   return userRepo.save(user)
 }
 

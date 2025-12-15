@@ -2,7 +2,7 @@ import 'reflect-metadata'
 
 import app from './app.js'
 import { env } from './config/env.js'
-import { initDB } from './db/index.js'
+import { initDB } from './database/index.js'
 
 async function main() {
   await initDB()
