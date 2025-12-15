@@ -3,6 +3,7 @@ import cors from 'cors'
 import express, { type Express } from 'express'
 
 import { env } from './config/env'
+import { AppDataSource } from './database/data-source.js'
 import { errorHandler } from './middlewares/errorHandler'
 import authRouter from './modules/auth/router'
 import projectRouter from './modules/project/router'
@@ -24,8 +25,12 @@ app.use(cookieParser())
 
 app.get('/healthz', (_req, res) => res.status(200).send('ok'))
 app.get('/readyz', async (_req, res) => {
-  // @TODO: check DB connectivity here
-  res.status(200).send('ready')
+  try {
+    await AppDataSource.query('SELECT 1')
+    res.status(200).send('ready')
+  } catch {
+    res.status(503).send('not ready')
+  }
 })
 
 app.use('/auth', authRouter)

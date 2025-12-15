@@ -25,5 +25,5 @@ export const UpdateUser = z.object({ email: Email })
 
 export const UserListQuery = PageQuery
 
-export const UserItem = ItemResponse(UserDTO)
-export const UserList = ListResponse(UserDTO)
+export const UserItem = ItemResponse(UserDTO.omit({ password: true }))
+export const UserList = ListResponse(UserDTO.omit({ password: true }))

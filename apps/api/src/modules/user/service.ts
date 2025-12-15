@@ -4,12 +4,11 @@ import { User } from '../../database/index.js'
 import { Errors } from '../../utils/errors.js'
 import * as repo from './repository.js'
 
-export function toUserDTO(user: User): UserDTO {
+export function toUserDTO(user: User): Omit<UserDTO, 'password'> {
   return {
     id: Id.parse(user.id),
     name: user.name,
     email: user.email,
-    password: user.password,
     createdAt: ISODate.parse(user.createdAt.toISOString()),
     updatedAt: ISODate.parse(user.updatedAt.toISOString()),
   }
