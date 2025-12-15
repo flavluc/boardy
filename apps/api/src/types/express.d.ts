@@ -1,9 +1,9 @@
-import 'express-serve-static-core'
+import 'express'
+
+import { Id } from '@repo/schemas'
 
 declare module 'express-serve-static-core' {
   interface Request {
-    userId?: string
-    //sessionId?: string
-    //roles?: string[]
+    userId: Id
   }
 }

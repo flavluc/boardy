@@ -1,4 +1,4 @@
-import { ProjectItem, ProjectList } from '@boardy/shared'
+import { ProjectItem, ProjectList } from '@repo/schemas'
 import type { Request, Response } from 'express'
 
 import { created, noContent, ok } from '../../utils/http'

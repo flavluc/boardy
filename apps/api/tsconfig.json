@@ -1,13 +1,15 @@
 {
-  "extends": "../../tsconfig.json",
+  "extends": "@repo/typescript-config/base.json",
   "compilerOptions": {
-    "outDir": "dist",
-    "rootDir": "src",
-
-    //@TODO: change these in production tsconfig.json
-    "noEmit": true,
-    "allowImportingTsExtensions": true
+    "lib": ["ES2015"],
+    "outDir": "./dist",
+    "paths": {
+      "@repo/schemas": ["../../packages/schemas/src/index.ts"]
+    },
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true
   },
-  "include": ["src"],
-  "references": [{ "path": "../../packages/shared" }]
+  "types": ["node", "jest"],
+  "exclude": ["node_modules"],
+  "include": ["."]
 }

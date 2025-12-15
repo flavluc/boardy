@@ -28,9 +28,9 @@ app.get('/readyz', async (_req, res) => {
   res.status(200).send('ready')
 })
 
-app.use('/projects', projectRouter)
-app.use('/users', userRouter)
 app.use('/auth', authRouter)
+app.use('/users', userRouter)
+app.use('/projects', projectRouter)
 
 app.use(errorHandler)
 

@@ -5,11 +5,12 @@ import * as userRepo from '../user/repository'
 import { toUserDTO } from '../user/service'
 import * as refreshRepo from './repository'
 
-export async function register(email: string, password: string) {
+export async function register(name: string, email: string, password: string) {
   const existing = await userRepo.findByEmail(email)
   if (existing) throw Errors.Conflict('Email already registered')
 
   const user = await userRepo.create({
+    name,
     email,
     password: await hashPassword(password),
   })

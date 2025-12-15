@@ -1,5 +1,5 @@
 {
-  description = "Boardy Dev Environment";
+  description = "Boardy";
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
@@ -14,10 +14,10 @@
       {
         devShell = pkgs.mkShell {
           buildInputs = [
+            pkgs.git
             pkgs.nodejs_22
             pkgs.pnpm
-            pkgs.git
-            pkgs.openssl
+            pkgs.turbo
           ];
         };
       }

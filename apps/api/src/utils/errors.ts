@@ -1,4 +1,4 @@
-import { ErrorCode } from '@boardy/shared'
+import { ErrorCode } from '@repo/schemas'
 
 export class ApiError extends Error {
   readonly code: ErrorCode

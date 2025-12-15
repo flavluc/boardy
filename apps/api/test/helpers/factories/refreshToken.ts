@@ -1,4 +1,4 @@
-import type { RefreshToken } from '../../../src/db/entities/RefreshToken'
+import type { RefreshToken } from '../../../src/database/entities/RefreshToken'
 import { mockEntity, now, uuid } from './index'
 import { makeUser } from './user'
 

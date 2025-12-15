@@ -2,8 +2,8 @@ import request from 'supertest'
 import { afterEach, beforeEach, describe, expect, it } from 'vitest'
 
 import app from '../../src/app'
-import { AppDataSource } from '../../src/db/data-source'
-import { Project, User } from '../../src/db/index.js'
+import { AppDataSource } from '../../src/database/data-source.js'
+import { Project, User } from '../../src/database/index.js'
 import { cleanDatabase, createUser } from '../helpers/db'
 
 let authToken: string, user: User

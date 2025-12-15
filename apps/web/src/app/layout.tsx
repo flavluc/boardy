@@ -1,12 +1,12 @@
-import './globals.css'
+import './globals.css';
 
-import type { Metadata } from 'next'
+import type { Metadata } from 'next';
 
-import { Providers } from './providers' // your React Query + token initializer
+import { Providers } from './providers';
 
 export const metadata: Metadata = {
   title: 'Boardy',
-  description: 'A small Kanban board for full-stack practice',
+  description: 'A Kanban board for your projects.',
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

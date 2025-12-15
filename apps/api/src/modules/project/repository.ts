@@ -1,5 +1,5 @@
-import { AppDataSource } from '../../db/data-source.js'
-import { Project } from '../../db/index.js'
+import { AppDataSource } from '../../database/data-source'
+import { Project } from '../../database/index'
 
 export const projectRepo = AppDataSource.getRepository(Project)
 

@@ -1,18 +1,20 @@
 import {
   LoginRequest,
   LoginResponse,
+  MeResponse,
   RefreshResponse,
   RegisterRequest,
   RegisterResponse,
-} from '@boardy/shared'
+} from '@repo/schemas'
 import { Request, Response } from 'express'
 
 import { created, noContent, ok } from '../../utils/http'
+import * as userService from '../user/service'
 import * as service from './service'
 
 export async function register(req: Request, res: Response) {
-  const { email, password } = RegisterRequest.parse(req.body)
-  const user = await service.register(email, password)
+  const { name, email, password } = RegisterRequest.parse(req.body)
+  const user = await service.register(name, email, password)
 
   created(res, RegisterResponse.parse({ data: { user } }))
 }
@@ -43,6 +45,12 @@ export async function refresh(req: Request, res: Response) {
   })
 
   ok(res, RefreshResponse.parse({ data: { access: accessToken } }))
+}
+
+export async function me(req: Request, res: Response) {
+  const user = await userService.get(req.userId)
+
+  ok(res, MeResponse.parse({ data: { user } }))
 }
 
 export async function logout(req: Request, res: Response) {

@@ -1,4 +1,4 @@
-import type { User } from '../../../src/db/entities/User'
+import type { User } from '../../../src/database/entities/User'
 import { mockEntity, now, uuid } from './index'
 
 export function makeUser(overrides: Partial<User> = {}): User {

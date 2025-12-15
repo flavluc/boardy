@@ -1,4 +1,4 @@
-import { UserItem, UserList } from '@boardy/shared'
+import { UserItem, UserList } from '@repo/schemas'
 import type { Request, Response } from 'express'
 
 import { noContent, ok } from '../../utils/http'

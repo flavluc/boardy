@@ -2,8 +2,8 @@ import request from 'supertest'
 import { afterEach, describe, expect, it } from 'vitest'
 
 import app from '../../src/app'
-import { AppDataSource } from '../../src/db/data-source'
-import { User } from '../../src/db/index.js'
+import { AppDataSource } from '../../src/database/data-source.js'
+import { User } from '../../src/database/index.js'
 import { cleanDatabase } from '../helpers/db'
 import { makeUser } from '../helpers/factories'
 

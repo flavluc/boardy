@@ -1,4 +1,4 @@
-import type { User } from '../../../src/db/entities/User'
+import type { User } from '../../../src/database/entities/User'
 import { hashPassword } from '../../../src/utils/password'
 import { makeUser } from '../factories'
 

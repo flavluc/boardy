@@ -1,4 +1,4 @@
-import { ErrorCode, ErrorEnvelope, HttpStatus } from '@boardy/shared'
+import { ErrorCode, ErrorEnvelope, HttpStatus } from '@repo/schemas'
 import { Response } from 'express'
 
 import { ApiError, Errors } from '../utils/errors'

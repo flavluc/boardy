@@ -1,5 +1,5 @@
-import { AppDataSource } from '../../db/data-source.js'
-import { RefreshToken } from '../../db/entities/RefreshToken.js'
+import { AppDataSource } from '../../database/data-source.js'
+import { RefreshToken } from '../../database/entities/RefreshToken.js'
 
 const repo = AppDataSource.getRepository(RefreshToken)
 
